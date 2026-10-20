@@ -19,7 +19,7 @@ all: $(OBJECTS) $(NAME)
 -include $(DEPS)
 
 $(NAME): $(OBJECTS)
-	$(CC) $(CFLAGS) $(IFLAGS) $(OBJECTS) -o $(NAME)
+	$(CC) $(CFLAGS) $(IFLAGS) $(OBJECTS) -lsqlite3 -o $(NAME)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $(IFLAGS) -o $*.o $*.c
