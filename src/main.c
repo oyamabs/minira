@@ -1,19 +1,45 @@
+#include "consts.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdlib.h>
+#include <string.h>
+
+void	init_db_content(sqlite3 *conn)
+{
+	sqlite3_stmt
+}
+
+sqlite3 *init_database(void)
+{
+	sqlite3	*connection;
+	char	path[255];
+	char	*home;
+	int		conn_rc;
+	
+	home = getenv("HOME");
+	if (!home)
+	{
+		perror("$HOME is not set.");
+		exit(EXIT_FAILURE);
+	}
+	sprintf(path, "%s%s", getenv("HOME"), MINIRA_FILENAME);
+	conn_rc = sqlite3_open(path, &connection);
+	if (conn_rc)
+	{
+		perror(sqlite3_errmsg(connection));
+		exit(EXIT_FAILURE);
+	}
+	else
+		init_db_content(connection);
+	return (connection);
+}
 
 int	main(void)
 {
 	sqlite3 *db;
-   int rc;
 
-   rc = sqlite3_open("test.db", &db);
+	db = init_database();
 
-   if( rc ) {
-      fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
-      return(0);
-   } else {
-      fprintf(stderr, "Opened database successfully\n");
-   }
-   sqlite3_close(db);printf("Hello, World\n");
+	sqlite3_close(db);
+	printf("Hello, World\n");
 }
